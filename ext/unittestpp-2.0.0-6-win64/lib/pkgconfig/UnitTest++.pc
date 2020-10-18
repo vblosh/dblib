@@ -1,0 +1,11 @@
+prefix=${pcfiledir}/../..
+exec_prefix=${prefix}/bin
+libdir=${prefix}/lib
+includedir=${prefix}/include/UnitTest++
+
+Name: UnitTest++
+Description: UnitTest++ is a simple C++ Unit Test Framework
+URL: https://github.com/unittest-cpp/unittest-cpp
+Version: 
+Libs: -L${libdir} -lUnitTest++
+Cflags: -I${includedir}/
