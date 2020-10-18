@@ -16,12 +16,20 @@ odbc::ConnectionRef getDBConnection()
 
 void createTable(dblib::DbAccess& db)
 {
-   const char * createTableStm = "CREATE TABLE test1 (boolean BIT, int16 SMALLINT, int32 INT, int64 BIGINT"
-       ", float32 REAL, float64 FLOAT, decimal DECIMAL(18, 8)"
-       ", string1 CHAR(16), string2 VARCHAR(128), nstring1 NCHAR(16), nstring2 NVARCHAR(128)"
-       ", date DATE, time TIME, dateTime DATETIME2"
-       ", binary1 BINARY(6), binary2 VARBINARY(3));";
-    db.execute(createTableStm);
+   const char * createTableStm = "CREATE TABLE test1 ("
+	   " int16 SMALLINT, int32 INT, int64 BIGINT"
+       ", float32 REAL, float64 FLOAT(53), decimal18 DECIMAL(18, 8)"
+       ", string1 CHAR(16), string2 VARCHAR(128)"
+       ", date1 DATE, time1 TIME, timestamp1 DATETIME"
+       ", binary1 BINARY(6), binary2 VARBINARY(3)"
+#ifdef NSTRING
+ 	   ", nstring1 NCHAR(16), nstring2 NVARCHAR(128)"
+#endif // NSTRING
+#ifdef BOOLEAN
+	   ", bit1 BIT"
+#endif // BOOLEAN
+	   ");";
+   db.execute(createTableStm);
 }
 
 void dropTable(dblib::DbAccess& db)
@@ -37,8 +45,12 @@ int main( int argc, char *argv[] )
     {
         odbc::EnvironmentRef env = odbc::Environment::create();
         conn = env->createConnection();
+#ifdef MYSQL
         conn->connect("MySQLTest", nullptr, nullptr);
-//        conn->connect("testDB", nullptr, nullptr);
+#endif // MYSQL
+#ifdef MS_SQL
+        conn->connect("MS_SQLTest", nullptr, nullptr);
+#endif // MS_SQL
         conn->setAutoCommit(true);
 
         dblib::DbAccess db;
