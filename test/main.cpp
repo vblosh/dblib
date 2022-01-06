@@ -1,6 +1,6 @@
-#include <UnitTest++.h>
 #include <iostream>
 #include <string>
+#include <gtest/gtest.h>
 #include <dbaccess.h>
 #include<odbc/Environment.h>
 #include <odbc/RefCounted.h>
@@ -16,8 +16,9 @@ odbc::ConnectionRef getDBConnection()
 
 void createTable(dblib::DbAccess& db)
 {
+	const char * createTableStm;
 #ifdef INFORMIX
-   const char * createTableStm = "CREATE TEMP TABLE test1 ("
+    createTableStm = "CREATE TEMP TABLE test1 ("
         "int16 SMALLINT, int32 INT, int64 BIGINT"
         ", float32 REAL, float64 FLOAT(16), decimal18 DECIMAL(18, 8)"
         ", string1 CHAR(16), string2 VARCHAR(128)"
@@ -26,6 +27,7 @@ void createTable(dblib::DbAccess& db)
 	   ");";
 
 #else
+    createTableStm = "CREATE TABLE test1 ("
 	   " int16 SMALLINT, int32 INT, int64 BIGINT"
        ", float32 REAL, float64 FLOAT(53), decimal18 DECIMAL(18, 8)"
        ", string1 CHAR(16), string2 VARCHAR(128)"
@@ -51,6 +53,8 @@ void dropTable(dblib::DbAccess& db)
 
 int main( int argc, char *argv[] )
 {
+    ::testing::InitGoogleTest(&argc, argv);
+
     int res = 0;
     try
     {
@@ -63,7 +67,7 @@ int main( int argc, char *argv[] )
         conn->connect("MS_SQLTest", nullptr, nullptr);
 #endif // MS_SQL
 #ifdef INFORMIX
-        conn->connect("zdev21_ide21", nullptr, nullptr);
+        conn->connect("INFORMIX", nullptr, nullptr);
 #endif
 
         conn->setAutoCommit(true);
@@ -72,8 +76,8 @@ int main( int argc, char *argv[] )
         db.setConnection(getDBConnection());
 
         createTable(db);
-
-        int res = UnitTest::RunAllTests();
+        
+        res = RUN_ALL_TESTS();
 
         dropTable(db);
 
