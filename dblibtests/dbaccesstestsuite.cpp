@@ -289,6 +289,7 @@ SUITE(dbaccessSuite)
         CATCH_odbc_EXP();
     }
 
+#ifndef INFORMIX
     TEST_FIXTURE(dbaccessFixture, Binary_Test1)
     {
         try
@@ -310,6 +311,7 @@ SUITE(dbaccessSuite)
         }
         CATCH_odbc_EXP();
     }
+#endif // !INFORMIX
 
     TEST_FIXTURE(dbaccessFixture, Count_Test1)
     {
@@ -356,7 +358,7 @@ SUITE(dbaccessSuite)
                     " AND float32=? AND float64=? AND decimal18=?"
                     " AND string1=? AND string2=?"
                     " AND date1=? AND time1=? AND timestamp1=?"
-                    " AND binary1=? AND binary2=?"
+ //                   " AND binary1=? AND binary2=?"
 #ifdef NSTRING
 					" AND nstring1=? AND nstring2=?"
 #endif // NSTRING
@@ -367,7 +369,7 @@ SUITE(dbaccessSuite)
                     , float32, float64, decimal18
                     , string1, string2
                     , date1, time1, timestamp1
-                    , binary1, binary2
+//                    , binary1, binary2
 #ifdef NSTRING
 					, nstring1, nstring2
 #endif // NSTRING
@@ -441,7 +443,7 @@ SUITE(dbaccessSuite)
                     " AND float32=? AND float64=? AND decimal18=?"
                     " AND string1=? AND string2=?"
                     " AND date1=? AND time1=? AND timestamp1=?"
-                    " AND binary1=? AND binary2=?"
+//                    " AND binary1=? AND binary2=?"
 #ifdef NSTRING
 					" AND nstring1=? AND nstring2=?"
 #endif // NSTRING
@@ -453,7 +455,7 @@ SUITE(dbaccessSuite)
                     , float32, float64, decimal18
                     , string1, string2
                     , date1, time1, timestamp1
-                    , binary1, binary2
+//                    , binary1, binary2
 #ifdef NSTRING
 					, nstring1, nstring2
 #endif // NSTRING
@@ -529,7 +531,7 @@ SUITE(dbaccessSuite)
 					" AND float32=? AND float64=? AND decimal18=?"
 					" AND string1=? AND string2=?"
 					" AND date1=? AND time1=? AND timestamp1=?"
-					" AND binary1=? AND binary2=?"
+//					" AND binary1=? AND binary2=?"
 #ifdef NSTRING
 					" AND nstring1=? AND nstring2=?"
 #endif // NSTRING
@@ -542,7 +544,7 @@ SUITE(dbaccessSuite)
 					, float32, float64, decimal18
 					, string1, string2
 					, date1, time1, timestamp1
-					, binary1, binary2
+//					, binary1, binary2
 #ifdef NSTRING
 					, nstring1, nstring2
 #endif // NSTRING

@@ -16,7 +16,16 @@ odbc::ConnectionRef getDBConnection()
 
 void createTable(dblib::DbAccess& db)
 {
-   const char * createTableStm = "CREATE TABLE test1 ("
+#ifdef INFORMIX
+   const char * createTableStm = "CREATE TEMP TABLE test1 ("
+        "int16 SMALLINT, int32 INT, int64 BIGINT"
+        ", float32 REAL, float64 FLOAT(16), decimal18 DECIMAL(18, 8)"
+        ", string1 CHAR(16), string2 VARCHAR(128)"
+        ", date1 DATE, time1 DATETIME HOUR TO SECOND, timestamp1 DATETIME YEAR TO SECOND"
+        ", binary1 BYTE, binary2 BYTE"
+	   ");";
+
+#else
 	   " int16 SMALLINT, int32 INT, int64 BIGINT"
        ", float32 REAL, float64 FLOAT(53), decimal18 DECIMAL(18, 8)"
        ", string1 CHAR(16), string2 VARCHAR(128)"
@@ -29,6 +38,8 @@ void createTable(dblib::DbAccess& db)
 	   ", bit1 BIT"
 #endif // BOOLEAN
 	   ");";
+#endif
+
    db.execute(createTableStm);
 }
 
@@ -51,6 +62,10 @@ int main( int argc, char *argv[] )
 #ifdef MS_SQL
         conn->connect("MS_SQLTest", nullptr, nullptr);
 #endif // MS_SQL
+#ifdef INFORMIX
+        conn->connect("zdev21_ide21", nullptr, nullptr);
+#endif
+
         conn->setAutoCommit(true);
 
         dblib::DbAccess db;
