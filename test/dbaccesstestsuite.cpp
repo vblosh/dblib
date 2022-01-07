@@ -112,7 +112,11 @@ struct dbaccessFixture : public ::testing::Test
 	odbc::Binary binary1 = std::vector<char>{ 1, 2, 3, 4, 5, 6 };
 	odbc::Binary binary2 = std::vector<char>{ 5, 6, 7 };
 #ifdef NSTRING
-	odbc::NString nstring1 = std::u16string(u"nstring1");
+#ifdef MYSQL
+	odbc::NString nstring1 = std::u16string(u"string1");
+#else
+	odbc::NString nstring1 = std::u16string(u"string1         ");
+#endif // MYSQL
 	odbc::NString nstring2 = std::u16string(u"nstring2");
 #endif // NSTRING
 #ifdef BOOLEAN
